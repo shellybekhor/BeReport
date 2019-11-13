@@ -34,14 +34,14 @@
         app:layout_constraintVertical_bias="0.932" />
 
     <CalendarView
-        android:id="@+id/calendarView2"
-        android:layout_width="363dp"
-        android:layout_height="358dp"
+        android:id="@+id/calendar"
+        android:layout_width="410dp"
+        android:layout_height="376dp"
+        android:dateTextAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:dateTextAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintVertical_bias="0.42" />
 
     <Button
@@ -85,31 +85,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.084" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
+    <TextView
+        android:id="@+id/monthHours"
+        android:layout_width="64dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="44dp"
+        android:text=" "
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.819"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="70dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
+    <TextView
+        android:id="@+id/yearHours"
+        android:layout_width="64dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="92dp"
+        android:text=" "
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954" />
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
