@@ -16,7 +16,8 @@
         android:layout_marginBottom="356dp"
         android:background="@drawable/pop_button"
         android:onClick="returnCustom"
-        android:text="אחר"
+        android:text="@string/_other"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
@@ -32,7 +33,8 @@
         android:layout_marginBottom="356dp"
         android:background="@drawable/pop_button"
         android:onClick="returnOne"
-        android:text="1"
+        android:text="@string/_1"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -49,7 +51,8 @@
         android:layout_marginBottom="356dp"
         android:background="@drawable/pop_button"
         android:onClick="returnThree"
-        android:text="3"
+        android:text="@string/_3"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.235"
@@ -69,14 +72,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose3" />
 
-    <Button
+    <ImageButton
         android:id="@+id/approveTyping"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="160dp"
-        android:text="אישור"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/ic_approval_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costumHours" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/approvalbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
