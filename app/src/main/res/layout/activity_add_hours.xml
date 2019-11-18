@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pop_up_des"
     tools:context=".AddHours">
+
 
     <Button
         android:id="@+id/choose1"
@@ -13,6 +15,7 @@
         android:layout_marginEnd="304dp"
         android:layout_marginBottom="356dp"
         android:onClick="returnOne"
+        android:background="@drawable/pop_button"
         android:text="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +25,7 @@
 
     <Button
         android:id="@+id/choose3"
+        android:background="@drawable/pop_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
@@ -42,6 +46,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="356dp"
+        android:background="@drawable/pop_button"
         android:onClick="returnCustom"
         android:text="אחר"
         app:layout_constraintBottom_toBottomOf="parent"
