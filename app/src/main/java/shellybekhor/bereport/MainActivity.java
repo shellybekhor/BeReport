@@ -3,20 +3,31 @@ package shellybekhor.bereport;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import java.util.Dictionary;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Global variables //
     private AlertDialog dialog;
     private CalendarView calendarView;
+    private Button reportBtn;
+    private PopupWindow popup;
     private int totalHours = 0;
     private int monthHours = 0;
 
@@ -24,14 +35,58 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calendarView = findViewById(R.id.calendar);
         setCalendar();
+        reportBtn = findViewById(R.id.reportButton);
+        setReportButton();
+
     }
 
-    private void setCalendar(){
+
+    /**
+     * This method is setting the functionality of the REPORT button
+     * by creating a listener and an onClick function.
+     */
+    private void setReportButton()
+    {
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reportSuccessDialog();
+            }
+        });
+    }
+
+    /**
+     * This method is creating a pop-up announcing the monthly hours.
+     * The pop-up disappears after 2 seconds.
+     */
+    public void reportSuccessDialog()
+    {
+        Log.d(LOG_TAG, "Report Clicked!");
+        LayoutInflater inflater = getLayoutInflater();
+        View reportSuccessView = inflater.inflate(R.layout.activity_popup_success, null);
+        popup = new PopupWindow(reportSuccessView,
+                ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
+
+        // TODO Take pop up off
+//        final Timer t = new Timer();
+//        t.schedule(new TimerTask() {
+//            public void run() {
+//                popup.dismiss(); // when the task active then close the dialog
+//                t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
+//            }
+//        }, 2000);
+
+    }
+
+    private void setCalendar()
+    {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendar,
@@ -43,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void buildAndRunDialog(){
+
+    private void buildAndRunDialog()
+    {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_add_hours, null);

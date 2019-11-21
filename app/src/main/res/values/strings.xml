@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Be Report</string>
+    <!--  General  -->
+    <string name="app_name">BeReport</string>
+
+    <!--  Login  -->
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -9,8 +12,23 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!--  Widget_text  -->
+    <string name="monthly">"חודשי"</string>
+    <string name="annual">"שנתי"</string>
+    <string name="report">"דווחי חודש!"</string>
+    <string name="Hi_user">"היי ליבי"</string>
+    <string name="empty_string">" "</string>
+    <string name="report_succeed">"דווח בהצלחה!"</string>
+
+    <!-- Image_description -->
+    <string name="user_picture">"The user's picture"</string>
+
+    <!--  Add_hours_dialog   -->
     <string name="_1">1</string>
-    <string name="_other">אחר</string>
     <string name="_3">3</string>
+    <string name="_other">אחר</string>
     <string name="approvalbutton">approvalButton</string>
+
+
 </resources>
