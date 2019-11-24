@@ -18,12 +18,19 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CalendarView;
+
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.applandeo.materialcalendarview.*;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -92,13 +99,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCalendar()
     {
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendar,
-                                            int year, int month, int day) {
+            public void onDayClick(EventDay eventDay) {
                 int totalBefore = totalHours;
                 buildAndRunDialog();
-                signSingleDay(year, month, day, totalHours - totalBefore);
+//                List<Calendar> calendars = new ArrayList<>();
+//                calendars.add(eventDay.getCalendar());
+//                calendarView.setSelectedDates(calendars);
+                signSingleDay(totalHours - totalBefore);
             }
         });
     }
@@ -122,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 //        window.setGravity(Gravity.CENTER);
     }
 
-    private void signSingleDay(int year, int month, int day, int hours){
+    private void signSingleDay(int hours){
         if (hours < 0) {
             // TODO: cancel the color of the day in the calenderView
         }
@@ -190,7 +199,12 @@ public class MainActivity extends AppCompatActivity {
         EditText hoursBar = dialog.findViewById(R.id.customHours);
         if (hoursBar != null && hoursBar.getText() != null) {
             String hours = hoursBar.getText().toString();
-            updateHours(Integer.parseInt(hours));
+            if (! hours.equals("")) {
+                updateHours(Integer.parseInt(hours));
+            }
+            else{
+                dialog.dismiss();
+            }
         }
         else{
             updateHours(0);
