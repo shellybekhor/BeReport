@@ -105,10 +105,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDayClick(EventDay eventDay) {
                 int totalBefore = totalHours;
-                buildAndRunDialog();
-//                List<Calendar> calendars = new ArrayList<>();
-//                calendars.add(eventDay.getCalendar());
-//                calendarView.setSelectedDates(calendars);
+                if (! calendarView.getSelectedDates().contains(eventDay.getCalendar())) {
+                    buildAndRunDialog();
+                }
+                else {
+                    // TODO
+                }
                 signSingleDay(totalHours - totalBefore);
             }
         });
