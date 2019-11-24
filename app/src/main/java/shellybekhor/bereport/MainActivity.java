@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -55,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         setCalendar();
         reportBtn = findViewById(R.id.reportButton);
         setReportButton();
-
     }
 
 
@@ -93,11 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.dismiss();
             }
         });
-
-
     }
-
-
 
     private void setCalendar()
     {
@@ -106,10 +103,13 @@ public class MainActivity extends AppCompatActivity {
             public void onDayClick(EventDay eventDay) {
                 int totalBefore = totalHours;
                 if (! calendarView.getSelectedDates().contains(eventDay.getCalendar())) {
+
                     buildAndRunDialog();
                 }
                 else {
-                    // TODO
+                    // todo
+//                    myEvent myEve = (myEvent) eventDay;
+//                    myEve.setHours(- myEve.getHours());
                 }
                 signSingleDay(totalHours - totalBefore);
             }
@@ -222,4 +222,55 @@ public class MainActivity extends AppCompatActivity {
         year.setText(String.valueOf(totalHours));
     }
 
+}
+
+class myEvent extends EventDay implements Parcelable
+{
+    int _hoursCount;
+
+    public myEvent(Calendar day)
+    {
+        super(day);
+        _hoursCount = 0;
+    }
+
+    public myEvent(EventDay eveDay)
+    {
+        super(eveDay.getCalendar());
+        _hoursCount = 0;
+    }
+
+    public void setHours(int n)
+    {
+        _hoursCount += n;
+    }
+
+    public int getHours()
+    {
+        return this._hoursCount;
+    }
+    private myEvent(Parcel in) {
+        super((Calendar) in.readSerializable(), in.readInt());
+//        mNote = in.readString();
+    }
+    public static final Creator<myEvent> CREATOR = new Creator<myEvent>() {
+        @Override
+        public myEvent createFromParcel(Parcel in) {
+            return new myEvent(in);
+        }
+        @Override
+        public myEvent[] newArray(int size) {
+            return new myEvent[size];
+        }
+    };
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeSerializable(getCalendar());
+//        parcel.writeInt(getImageResource());
+//        parcel.writeString(mNote);
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }
