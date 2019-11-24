@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is creating a pop-up announcing the monthly hours.
      * The pop-up disappears after 2 seconds.
      */
-    public void reportSuccessDialog()
+    private void reportSuccessDialog()
     {
         Log.d(LOG_TAG, "Report Clicked!");
         LayoutInflater inflater = getLayoutInflater();
@@ -86,16 +86,18 @@ public class MainActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
 
-        // TODO Take pop up off
-//        final Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            public void run() {
-//                popup.dismiss(); // when the task active then close the dialog
-//                t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
-//            }
-//        }, 2000);
+        Button btn = (Button) reportSuccessView.findViewById(R.id.buttonclose);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+
 
     }
+
+
 
     private void setCalendar()
     {
