@@ -5,15 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -35,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calendarView = findViewById(R.id.calendar);
@@ -98,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    private void buildAndRunDialog()
-    {
+    private void buildAndRunDialog(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_add_hours, null);
@@ -113,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout((int) (getDeviceMetrics(this).widthPixels*0.9),
+                (int) (getDeviceMetrics(this).heightPixels*0.3));
+//        window.setGravity(Gravity.CENTER);
     }
 
     private void signSingleDay(int year, int month, int day, int hours){
@@ -147,9 +154,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void returnCustom(View view){
-        // TODO: ask for hours from user and then get
-        int num = 0;
-        updateHours(num);
+        View hoursBar = dialog.findViewById(R.id.customHours);
+        hoursBar.setVisibility(View.VISIBLE);
+        View approveButton = dialog.findViewById(R.id.approveTyping);
+        approveButton.setVisibility(View.VISIBLE);
+
+        Window window = dialog.getWindow();
+        window.setLayout((int) (getDeviceMetrics(this).widthPixels*0.9),
+                (int) (getDeviceMetrics(this).heightPixels*0.5));
+    }
+
+    public static DisplayMetrics getDeviceMetrics(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        display.getMetrics(metrics);
+        return metrics;
     }
 
     public void resetDay(View view){
@@ -164,6 +184,17 @@ public class MainActivity extends AppCompatActivity {
         monthHours += hours;
         Log.d(LOG_TAG, "HOURS: " + totalHours);
         dialog.dismiss();
+    }
+
+    public void approveHours(View view) {
+        EditText hoursBar = dialog.findViewById(R.id.customHours);
+        if (hoursBar != null && hoursBar.getText() != null) {
+            String hours = hoursBar.getText().toString();
+            updateHours(Integer.parseInt(hours));
+        }
+        else{
+            updateHours(0);
+        }
     }
 
     private void updateTextViews(){

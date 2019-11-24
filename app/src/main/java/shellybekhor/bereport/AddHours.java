@@ -26,7 +26,7 @@ public class AddHours extends AppCompatActivity {
     public void returnCustom(View view){
     }
 
-    public void resetDay(View view){
+    public void approveHours(View view){
     }
 
 }
