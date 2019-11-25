@@ -19,7 +19,8 @@
     <string name="report">"דווחי חודש :)"</string>
     <string name="Hi_user">"היי ליבי"</string>
     <string name="empty_string">" "</string>
-    <string name="report_succeed">"דווח בהצלחה!"</string>
+    <string name="report_succeed">"החודש דווח בהצלחה!"</string>
+    <string name="how_many_hours_report">"כמה שעות לדווח?"</string>
 
     <!-- Image_description -->
     <string name="user_picture">"The user's picture"</string>

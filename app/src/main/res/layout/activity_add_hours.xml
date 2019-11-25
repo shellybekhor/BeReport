@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customHours"
         app:layout_constraintVertical_bias="0.034" />
-    />
+
 
 
     <!--    <ImageButton-->
@@ -104,5 +104,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.439" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="140dp"
+        android:layout_height="33dp"
+        android:gravity="center"
+        android:text="@string/how_many_hours_report"
+        android:textColor="#F2AEAF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/choose3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
