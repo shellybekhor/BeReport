@@ -39,16 +39,16 @@
         android:layout_width="410dp"
         android:layout_height="376dp"
         android:dateTextAppearance="@android:style/TextAppearance.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42"
-        app:type="many_days_picker"
-        app:selectionColor="#D81B60"
         app:daysLabelsColor="#D81B60"
         app:headerColor="#D81B60"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.304"
+        app:selectionColor="#D81B60"
+        app:type="many_days_picker" />
 
     <Button
         android:id="@+id/reportButton"
@@ -87,10 +87,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintHorizontal_bias="0.873"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.084" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <TextView
         android:id="@+id/monthHours"
