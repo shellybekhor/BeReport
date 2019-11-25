@@ -29,6 +29,7 @@
     <string name="_3">3</string>
     <string name="_other">אחר</string>
     <string name="approvalbutton">approvalButton</string>
+    <string name="approve">אישור</string>
 
 
 </resources>
