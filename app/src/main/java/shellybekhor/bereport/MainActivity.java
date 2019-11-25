@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setCalendar();
         reportBtn = findViewById(R.id.reportButton);
         setReportButton();
+
     }
 
 
