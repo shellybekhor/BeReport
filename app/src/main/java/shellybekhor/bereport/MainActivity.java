@@ -1,6 +1,5 @@
 package shellybekhor.bereport;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
@@ -9,8 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -22,19 +19,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.*;
+import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
-import java.util.ArrayList;
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
-import java.util.Dictionary;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popup;
     private int totalHours = 0;
     private int monthHours = 0;
+    private Map dateToHours;
+    private Map monthToHours;
+    private EventDay currentDialogsDay = null;
 
     public static final int TEXT_REQUEST = 1;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         reportBtn = findViewById(R.id.reportButton);
         setReportButton();
 
+        dateToHours = new HashMap();
+        monthToHours = new HashMap();
+        monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
     }
 
 
@@ -88,7 +91,14 @@ public class MainActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
 
-        Button btn = (Button) reportSuccessView.findViewById(R.id.buttonclose);
+        Calendar c = Calendar.getInstance();
+        c.setTime(calendarView.getCurrentPageDate().getTime());
+        String m = new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
+        String txt = "חודש " + m + " דווח בהצלחה!";
+        TextView reportBox = reportSuccessView.findViewById(R.id.popUpWindow);
+        reportBox.setText(txt);
+
+        Button btn = reportSuccessView.findViewById(R.id.buttonclose);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,22 +107,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setCalendar()
-    {
+    private void setCalendar() {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
-                int totalBefore = totalHours;
+                currentDialogsDay = eventDay;
+                Date date = eventDay.getCalendar().getTime();
                 if (! calendarView.getSelectedDates().contains(eventDay.getCalendar())) {
-
+                    dateToHours.put(date, 0);
                     buildAndRunDialog();
                 }
                 else {
-                    // todo
-//                    myEvent myEve = (myEvent) eventDay;
-//                    myEve.setHours(- myEve.getHours());
+                    resetDay(date);
                 }
-                signSingleDay(totalHours - totalBefore);
+            }
+        });
+
+        calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
+            @Override
+            public void onChange() {
+                updateMonthCounter();
+            }
+        });
+
+        calendarView.setOnForwardPageChangeListener(new OnCalendarPageChangeListener() {
+            @Override
+            public void onChange() {
+                updateMonthCounter();
             }
         });
     }
@@ -127,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 updateTextViews();
+                Date date = currentDialogsDay.getCalendar().getTime();
+                if (dateToHours.containsKey(date) && (int) dateToHours.get(date) == 0){
+                    removeDayFromSelected(currentDialogsDay);
+                }
             }
         });
         dialog.show();
@@ -136,14 +161,10 @@ public class MainActivity extends AppCompatActivity {
 //        window.setGravity(Gravity.CENTER);
     }
 
-    private void signSingleDay(int hours){
-        if (hours < 0) {
-            // TODO: cancel the color of the day in the calenderView
-        }
-        else if (hours > 0){
-            // TODO: change the color of the day in the calenderView
-        }
-        // if hours == 0 no change needed
+    private void removeDayFromSelected(EventDay eventDay){
+        List<Calendar> curSelected = calendarView.getSelectedDates();
+        curSelected.remove(eventDay.getCalendar());
+        calendarView.setSelectedDates(curSelected);
     }
 
     @Override
@@ -186,17 +207,22 @@ public class MainActivity extends AppCompatActivity {
         return metrics;
     }
 
-    public void resetDay(View view){
-        // TODO: discover what day was clicked and reset it
-        int value = 0;
-        // TODO: get the value of the day
+    public void resetDay(Date date){
+        int value = (int) dateToHours.get(date);
         updateHours(-value);
+        updateTextViews();
     }
 
     private void updateHours(int hours){
+        Date date = currentDialogsDay.getCalendar().getTime();
         totalHours += hours;
         monthHours += hours;
-        Log.d(LOG_TAG, "HOURS: " + totalHours);
+        dateToHours.put(date, hours);
+
+        Date month = calendarView.getCurrentPageDate().getTime();
+        monthToHours.put(month, (int) monthToHours.get(month) + hours);
+
+        Log.d(LOG_TAG, "HOURS: " + totalHours + "  DATE:  " + date);
         dialog.dismiss();
     }
 
@@ -204,16 +230,12 @@ public class MainActivity extends AppCompatActivity {
         EditText hoursBar = dialog.findViewById(R.id.customHours);
         if (hoursBar != null && hoursBar.getText() != null) {
             String hours = hoursBar.getText().toString();
-            if (! hours.equals("")) {
+            if (!hours.equals("")) {
                 updateHours(Integer.parseInt(hours));
-            }
-            else{
-                dialog.dismiss();
+                return;
             }
         }
-        else{
-            updateHours(0);
-        }
+        dialog.dismiss();
     }
 
     private void updateTextViews(){
@@ -223,55 +245,16 @@ public class MainActivity extends AppCompatActivity {
         year.setText(String.valueOf(totalHours));
     }
 
-}
-
-class myEvent extends EventDay implements Parcelable
-{
-    int _hoursCount;
-
-    public myEvent(Calendar day)
-    {
-        super(day);
-        _hoursCount = 0;
-    }
-
-    public myEvent(EventDay eveDay)
-    {
-        super(eveDay.getCalendar());
-        _hoursCount = 0;
-    }
-
-    public void setHours(int n)
-    {
-        _hoursCount += n;
-    }
-
-    public int getHours()
-    {
-        return this._hoursCount;
-    }
-    private myEvent(Parcel in) {
-        super((Calendar) in.readSerializable(), in.readInt());
-//        mNote = in.readString();
-    }
-    public static final Creator<myEvent> CREATOR = new Creator<myEvent>() {
-        @Override
-        public myEvent createFromParcel(Parcel in) {
-            return new myEvent(in);
+    private void updateMonthCounter(){
+        Date month = calendarView.getCurrentPageDate().getTime();
+        if (monthToHours.containsKey(month)) {
+            monthHours = (int) monthToHours.get(month);
         }
-        @Override
-        public myEvent[] newArray(int size) {
-            return new myEvent[size];
+        else{
+            monthHours = 0;
+            monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
         }
-    };
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeSerializable(getCalendar());
-//        parcel.writeInt(getImageResource());
-//        parcel.writeString(mNote);
+        updateTextViews();
     }
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+
 }
