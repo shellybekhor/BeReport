@@ -18,6 +18,7 @@
     <string name="annual">"שנתי"</string>
     <string name="report">"דווחי חודש"</string>
     <string name="you_reported">ליבי, השנה דיווחת %1$d שעות</string>
+    <string name="reported">"החודש דווח"</string>
     <string name="hourse">"שעות"</string>
     <string name="empty_string">" "</string>
     <string name="report_succeed">"החודש דווח בהצלחה!"</string>

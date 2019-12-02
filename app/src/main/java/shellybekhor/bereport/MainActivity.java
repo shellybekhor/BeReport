@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         monthToHours = new HashMap();
         reportedMonths = new ArrayList<>();
         monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
+        updateTextViews();
     }
 
 
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
+
+                // If the month was reported, make day disabled.
                 if (reportedMonths.contains(calendarView.getCurrentPageDate().getTime())) {
                     List<Calendar> c = new ArrayList<>();
                     c.add(eventDay.getCalendar());
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Else, check if already selected or not, act accordingly
                 currentDialogsDay = eventDay;
                 Date date = eventDay.getCalendar().getTime();
                 if (! calendarView.getSelectedDates().contains(eventDay.getCalendar())) {
@@ -162,6 +166,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Build the dialog of the popup for the choosing number of hours.
+     * Open the dialog, and define what happen when dismiss.
+     * Define the popup window size.
+     */
     private void buildAndRunDialog(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = getLayoutInflater();
@@ -186,23 +195,13 @@ public class MainActivity extends AppCompatActivity {
 //        window.setGravity(Gravity.CENTER);
     }
 
+    /**
+     *  Unselect a day in calender.
+     */
     private void removeDayFromSelected(EventDay eventDay){
         List<Calendar> curSelected = calendarView.getSelectedDates();
         curSelected.remove(eventDay.getCalendar());
         calendarView.setSelectedDates(curSelected);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TEXT_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                String reply = data.getStringExtra(AddHours.EXTRA_REPLY);
-                if (reply != null) {
-                    Log.d(LOG_TAG, reply);
-                }
-            }
-        }
     }
 
     /**
@@ -299,8 +298,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateTextViews(){
         TextView month = findViewById(R.id.monthHours);
         month.setText(String.valueOf(monthHours));
-        TextView year = findViewById(R.id.yearHours);
-        year.setText(String.valueOf(totalHours));
+//        TextView year = findViewById(R.id.yearHours);
+//        year.setText(String.valueOf(totalHours));
+        String youReported = getResources().getString(R.string.you_reported, totalHours);
+        TextView title = findViewById(R.id.username);
+        title.setText(youReported);
     }
 
     /**
@@ -333,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateReportedMonth(){
         TextView reportButton = findViewById(R.id.reportButton);
-        reportButton.setText("החודש דווח");
+        reportButton.setText(getResources().getString(R.string.reported));
         reportButton.setBackground(getResources().getDrawable(R.drawable.pop_up_after_report));
         findViewById(R.id.reportedBackground).setVisibility(View.VISIBLE);
     }
@@ -347,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateUnReportedMonth(){
         TextView reportButton = findViewById(R.id.reportButton);
-        reportButton.setText("דווחי חודש");
+        reportButton.setText(getResources().getString(R.string.report));
         reportButton.setBackground(getResources().getDrawable(R.drawable.button_gradient));
         findViewById(R.id.reportedBackground).setVisibility(View.INVISIBLE);
     }
