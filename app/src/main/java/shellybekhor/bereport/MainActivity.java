@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private Map monthToHours;
     private ArrayList<Date> reportedMonths;
 
-    public static final int TEXT_REQUEST = 1;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -69,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         reportedMonths = new ArrayList<>();
         monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
         updateTextViews();
+        TextView monthName = findViewById(R.id.monthName);
+        monthName.setText(getCurMonthName());
     }
 
 
@@ -103,16 +104,13 @@ public class MainActivity extends AppCompatActivity {
         popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
 
         // Update the text by the current month
-        Date reportedMonth = calendarView.getCurrentPageDate().getTime();
-        Calendar c = Calendar.getInstance();
-        c.setTime(reportedMonth);
-        String m = new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
+        String m = getCurMonthName();
         String txt = "חודש " + m + " דווח בהצלחה!";
         TextView reportBox = reportSuccessView.findViewById(R.id.popUpWindow);
         reportBox.setText(txt);
 
         // Sign this month as reported
-        reportedMonths.add(reportedMonth);
+        reportedMonths.add(calendarView.getCurrentPageDate().getTime());
 
         Button btn = reportSuccessView.findViewById(R.id.buttonclose);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -296,13 +294,13 @@ public class MainActivity extends AppCompatActivity {
      * Change the views in the main activity, and update by the counters.
      */
     private void updateTextViews(){
-        TextView month = findViewById(R.id.monthHours);
-        month.setText(String.valueOf(monthHours));
-//        TextView year = findViewById(R.id.yearHours);
-//        year.setText(String.valueOf(totalHours));
         String youReported = getResources().getString(R.string.you_reported, totalHours);
         TextView title = findViewById(R.id.username);
         title.setText(youReported);
+
+        String monthCounter = getResources().getString(R.string.month_counter, monthHours);
+        TextView monthText = findViewById(R.id.monthHours);
+        monthText.setText(monthCounter);
     }
 
     /**
@@ -325,6 +323,8 @@ public class MainActivity extends AppCompatActivity {
             monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
         }
         updateTextViews();
+        TextView monthName = findViewById(R.id.monthName);
+        monthName.setText(getCurMonthName());
     }
 
     /**
@@ -352,6 +352,17 @@ public class MainActivity extends AppCompatActivity {
         reportButton.setText(getResources().getString(R.string.report));
         reportButton.setBackground(getResources().getDrawable(R.drawable.button_gradient));
         findViewById(R.id.reportedBackground).setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * @return name of the current month in the calender
+     */
+    private String getCurMonthName(){
+        Date reportedMonth = calendarView.getCurrentPageDate().getTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(reportedMonth);
+        return new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
+        // TODO change name from english to hebrew
     }
 
 }

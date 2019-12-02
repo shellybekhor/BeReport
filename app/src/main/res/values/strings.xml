@@ -23,6 +23,7 @@
     <string name="empty_string">" "</string>
     <string name="report_succeed">"החודש דווח בהצלחה!"</string>
     <string name="how_many_hours_report">"כמה שעות לדווח?"</string>
+    <string name="month_counter">%1$d שעות</string>
 
     <!-- Image_description -->
     <string name="user_picture">"The user's picture"</string>
