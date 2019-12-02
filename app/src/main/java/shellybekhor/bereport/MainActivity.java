@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -40,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private CalendarView calendarView;
     private Button reportBtn;
     private PopupWindow popup;
+    private EventDay currentDialogsDay = null;
+
+    // to be saved to future entries to the app
     private int totalHours = 0;
     private int monthHours = 0;
     private Map dateToHours;
     private Map monthToHours;
-    private EventDay currentDialogsDay = null;
 
     public static final int TEXT_REQUEST = 1;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
 
+        // take
         Calendar c = Calendar.getInstance();
         c.setTime(calendarView.getCurrentPageDate().getTime());
         String m = new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
@@ -144,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.activity_add_hours, null);
         dialogBuilder.setView(dialogView);
         dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
