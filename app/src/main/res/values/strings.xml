@@ -16,8 +16,9 @@
     <!--  Widget_text  -->
     <string name="monthly">"חודשי"</string>
     <string name="annual">"שנתי"</string>
-    <string name="report">"דווחי חודש :)"</string>
-    <string name="Hi_user">"היי ליבי"</string>
+    <string name="report">"דווחי חודש"</string>
+    <string name="you_reported">ליבי, השנה דיווחת %1$d שעות</string>
+    <string name="hourse">"שעות"</string>
     <string name="empty_string">" "</string>
     <string name="report_succeed">"החודש דווח בהצלחה!"</string>
     <string name="how_many_hours_report">"כמה שעות לדווח?"</string>
