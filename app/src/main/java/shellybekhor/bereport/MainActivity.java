@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateReportedMonth(){
         TextView reportButton = findViewById(R.id.reportButton);
         reportButton.setText("דווח");
-        reportButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        reportButton.setBackground(getResources().getDrawable(R.drawable.pop_up_after_report));
         findViewById(R.id.reportedBackground).setVisibility(View.VISIBLE);
     }
 

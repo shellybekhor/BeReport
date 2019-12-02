@@ -31,6 +31,7 @@
     <string name="_other">אחר</string>
     <string name="approvalbutton">approvalButton</string>
     <string name="approve">אישור</string>
+    <string name="type">הקלידי</string>
 
 
 </resources>
