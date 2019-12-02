@@ -8,54 +8,29 @@
     android:background="@drawable/background_gradient"
     >
 
-    <TextView
-        android:id="@+id/month"
-        android:layout_width="74dp"
-        android:layout_height="27dp"
-        android:text="@string/monthly"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
-
-    <TextView
-        android:id="@+id/annual"
-        android:layout_width="64dp"
-        android:layout_height="29dp"
-        android:text="@string/annual"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.899"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92" />
-
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendar"
         android:dateTextAppearance="@android:style/TextAppearance.Large"
         android:layout_width="410dp"
         android:layout_height="376dp"
-        app:daysLabelsColor="#D81B60"
-        app:headerColor="#D81B60"
+        app:todayLabelColor="#EC5955"
+        app:daysLabelsColor="#F5A8A6"
+        app:headerColor="#F5A8A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.304"
-        app:selectionColor="#D81B60"
+        app:selectionColor="#F5A8A6"
         app:type="many_days_picker" >
 
     </com.applandeo.materialcalendarview.CalendarView>
 
     <Button
         android:id="@+id/reportButton"
-        android:layout_width="177dp"
-        android:layout_height="64dp"
+        android:layout_width="301dp"
+        android:layout_height="75dp"
         android:background="@drawable/button_gradient"
         android:text="@string/report"
         android:textColor="#3E3E3E"
@@ -63,10 +38,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914" />
+        app:layout_constraintVertical_bias="0.928" />
 
     <TextView
         android:id="@+id/username"
@@ -97,27 +72,17 @@
         app:srcCompat="@drawable/pop_up_after_report" />
 
     <TextView
-        android:id="@+id/yearHours"
-        android:layout_width="64dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="56dp"
-        android:text="@string/empty_string"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/annual"
-        app:layout_constraintHorizontal_bias="0.931"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/monthHours"
         android:layout_width="64dp"
         android:layout_height="29dp"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="140dp"
         android:text="@string/empty_string"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/month"
-        app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
