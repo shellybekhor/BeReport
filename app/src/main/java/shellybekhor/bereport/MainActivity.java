@@ -29,6 +29,7 @@ import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private int monthHours = 0;
     private Map dateToHours;
     private Map monthToHours;
+    private ArrayList<Date> reportedMonths;
 
     public static final int TEXT_REQUEST = 1;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         dateToHours = new HashMap();
         monthToHours = new HashMap();
+        reportedMonths = new ArrayList<>();
         monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
     }
 
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (reportedMonths.contains(calendarView.getCurrentPageDate().getTime())) return;
                 reportSuccessDialog();
             }
         });
@@ -89,25 +93,32 @@ public class MainActivity extends AppCompatActivity {
     private void reportSuccessDialog()
     {
         Log.d(LOG_TAG, "Report Clicked!");
+
+        // Create popup window
         LayoutInflater inflater = getLayoutInflater();
         View reportSuccessView = inflater.inflate(R.layout.activity_popup_success, null);
         popup = new PopupWindow(reportSuccessView,
                 ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
         popup.showAtLocation(calendarView, Gravity.CENTER,0,0);
 
-        // take
+        // Update the text by the current month
+        Date reportedMonth = calendarView.getCurrentPageDate().getTime();
         Calendar c = Calendar.getInstance();
-        c.setTime(calendarView.getCurrentPageDate().getTime());
+        c.setTime(reportedMonth);
         String m = new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
         String txt = "חודש " + m + " דווח בהצלחה!";
         TextView reportBox = reportSuccessView.findViewById(R.id.popUpWindow);
         reportBox.setText(txt);
+
+        // Sign this month as reported
+        reportedMonths.add(reportedMonth);
 
         Button btn = reportSuccessView.findViewById(R.id.buttonclose);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup.dismiss();
+                updateReportedMonth();
             }
         });
     }
@@ -116,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
+                if (reportedMonths.contains(calendarView.getCurrentPageDate().getTime())) {
+                    List<Calendar> c = new ArrayList<>();
+                    c.add(eventDay.getCalendar());
+                    calendarView.setDisabledDays(c);
+                    dialog.dismiss();
+                    return;
+                }
+
                 currentDialogsDay = eventDay;
                 Date date = eventDay.getCalendar().getTime();
                 if (! calendarView.getSelectedDates().contains(eventDay.getCalendar())) {
@@ -186,14 +205,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Return 1 button onClick
+     * @param view buuton
+     */
     public void returnOne(View view){
         updateHours(1);
     }
 
+    /**
+     * Return 3 button onClick
+     * @param view buuton
+     */
     public void returnThree(View view){
         updateHours(3);
     }
 
+    /**
+     * When the "custom" button is clicked.
+     * @param view the custom button.
+     */
     public void returnCustom(View view){
         View hoursBar = dialog.findViewById(R.id.customHours);
         hoursBar.setVisibility(View.VISIBLE);
@@ -205,6 +236,11 @@ public class MainActivity extends AppCompatActivity {
                 (int) (getDeviceMetrics(this).heightPixels*0.5));
     }
 
+    /**
+     * Return the device sazes and layouts.
+     * @param context context
+     * @return metrics
+     */
     public static DisplayMetrics getDeviceMetrics(Context context) {
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -213,12 +249,21 @@ public class MainActivity extends AppCompatActivity {
         return metrics;
     }
 
+    /**
+     * Called when a day is unselected. remove number of hours that day from the counters.
+     * @param date
+     */
     public void resetDay(Date date){
         int value = (int) dateToHours.get(date);
         updateHours(-value);
         updateTextViews();
     }
 
+    /**
+     * Update the counters, and the maps, with the new number of hours
+     * that was selected in the selected day.
+     * @param hours the hours that was selected.
+     */
     private void updateHours(int hours){
         Date date = currentDialogsDay.getCalendar().getTime();
         totalHours += hours;
@@ -232,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
+    /**
+     * Called when the approve button is clicked.
+     * @param view the button.
+     */
     public void approveHours(View view) {
         EditText hoursBar = dialog.findViewById(R.id.customHours);
         if (hoursBar != null && hoursBar.getText() != null) {
@@ -244,6 +293,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
+    /**
+     * Change the views in the main activity, and update by the counters.
+     */
     private void updateTextViews(){
         TextView month = findViewById(R.id.monthHours);
         month.setText(String.valueOf(monthHours));
@@ -251,8 +303,18 @@ public class MainActivity extends AppCompatActivity {
         year.setText(String.valueOf(totalHours));
     }
 
+    /**
+     * Change the month counter text view to be the number of hours in the current month.
+     */
     private void updateMonthCounter(){
         Date month = calendarView.getCurrentPageDate().getTime();
+        if (reportedMonths.contains(month)){
+            updateReportedMonth();
+        }
+        else{
+            updateUnReportedMonth();
+        }
+
         if (monthToHours.containsKey(month)) {
             monthHours = (int) monthToHours.get(month);
         }
@@ -261,6 +323,33 @@ public class MainActivity extends AppCompatActivity {
             monthToHours.put(calendarView.getCurrentPageDate().getTime(), 0);
         }
         updateTextViews();
+    }
+
+    /**
+     * Change a month to reported:
+     *      1. report button color change to gray.
+     *      2. report button text is changed.
+     *      3. gray shade on month become visible.
+     */
+    private void updateReportedMonth(){
+        TextView reportButton = findViewById(R.id.reportButton);
+        reportButton.setText("דווח");
+        reportButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        findViewById(R.id.reportedBackground).setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * Change a month to an unreported:
+     *      1. report button color change to gray.
+     *      2. report button text is changed.
+     *      3. gray shade on month become visible.
+     */
+    private void updateUnReportedMonth(){
+        TextView reportButton = findViewById(R.id.reportButton);
+        reportButton.setText("דווחי חודש");
+        reportButton.setBackground(getResources().getDrawable(R.drawable.button_gradient));
+        findViewById(R.id.reportedBackground).setVisibility(View.INVISIBLE);
     }
 
 }
