@@ -21,9 +21,10 @@
     <string name="reported">"החודש דווח"</string>
     <string name="hourse">"שעות"</string>
     <string name="empty_string">" "</string>
-    <string name="report_succeed">"החודש דווח בהצלחה!"</string>
     <string name="how_many_hours_report">"כמה שעות לדווח?"</string>
     <string name="month_counter">%1$d שעות</string>
+    <string name="month_x_reported_successfully">חודש %1$s דווח בהצלחה!</string>
+    <string name="x_more_marked">וסימנת עוד %1$d</string>
 
     <!-- Image_description -->
     <string name="user_picture">"The user's picture"</string>

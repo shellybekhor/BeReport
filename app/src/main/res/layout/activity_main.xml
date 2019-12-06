@@ -45,8 +45,8 @@
 
     <TextView
         android:id="@+id/username"
-        android:layout_width="347dp"
-        android:layout_height="70dp"
+        android:layout_width="346dp"
+        android:layout_height="43dp"
         android:text="@string/you_reported"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,10 +73,10 @@
 
     <TextView
         android:id="@+id/monthHours"
-        android:layout_width="64dp"
+        android:layout_width="140dp"
         android:layout_height="29dp"
         android:layout_marginBottom="140dp"
-        android:text="@string/empty_string"
+        android:text="@string/month_counter"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,5 +95,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.996" />
+
+    <TextView
+        android:id="@+id/marked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="11dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/reportedBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.977"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

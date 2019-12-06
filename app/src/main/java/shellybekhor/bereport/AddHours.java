@@ -23,7 +23,7 @@ public class AddHours extends AppCompatActivity {
     public void returnThree(View view){
     }
 
-    public void returnCustom(View view){
+    public void customButtonClicked(View view){
     }
 
     public void approveHours(View view){

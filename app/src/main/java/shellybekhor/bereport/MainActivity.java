@@ -1,12 +1,10 @@
 package shellybekhor.bereport;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,8 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -28,7 +26,6 @@ import com.applandeo.materialcalendarview.*;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
 
     // to be saved to future entries to the app
     private int totalHours = 0;
+    private int totalReported = 0;
     private int monthHours = 0;
     private Map dateToHours;
     private Map monthToHours;
     private ArrayList<Date> reportedMonths;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String[] month_names = {"ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמר", "דצמבר"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is setting the functionality of the REPORT button
      * by creating a listener and an onClick function.
      */
-    private void setReportButton()
-    {
+    private void setReportButton() {
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,8 +91,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is creating a pop-up announcing the monthly hours.
      * The pop-up disappears after 2 seconds.
      */
-    private void reportSuccessDialog()
-    {
+    private void reportSuccessDialog() {
         Log.d(LOG_TAG, "Report Clicked!");
 
         // Create popup window
@@ -105,12 +103,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the text by the current month
         String m = getCurMonthName();
-        String txt = "חודש " + m + " דווח בהצלחה!";
+        String txt = getResources().getString(R.string.month_x_reported_successfully, m);
         TextView reportBox = reportSuccessView.findViewById(R.id.popUpWindow);
         reportBox.setText(txt);
 
         // Sign this month as reported
         reportedMonths.add(calendarView.getCurrentPageDate().getTime());
+        totalReported += monthHours;
 
         Button btn = reportSuccessView.findViewById(R.id.buttonclose);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 popup.dismiss();
                 updateReportedMonth();
+                updateTextViews();
             }
         });
     }
@@ -222,9 +222,13 @@ public class MainActivity extends AppCompatActivity {
      * When the "custom" button is clicked.
      * @param view the custom button.
      */
-    public void returnCustom(View view){
+    public void customButtonClicked(View view){
         View hoursBar = dialog.findViewById(R.id.customHours);
         hoursBar.setVisibility(View.VISIBLE);
+        hoursBar.requestFocus();
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(hoursBar, InputMethodManager.SHOW_IMPLICIT);
+
         View approveButton = dialog.findViewById(R.id.approveTyping);
         approveButton.setVisibility(View.VISIBLE);
 
@@ -294,13 +298,17 @@ public class MainActivity extends AppCompatActivity {
      * Change the views in the main activity, and update by the counters.
      */
     private void updateTextViews(){
-        String youReported = getResources().getString(R.string.you_reported, totalHours);
+        String youReported = getResources().getString(R.string.you_reported, totalReported);
         TextView title = findViewById(R.id.username);
         title.setText(youReported);
 
         String monthCounter = getResources().getString(R.string.month_counter, monthHours);
         TextView monthText = findViewById(R.id.monthHours);
         monthText.setText(monthCounter);
+
+        String marked = getResources().getString(R.string.x_more_marked, (totalHours - totalReported));
+        TextView reported = findViewById(R.id.marked);
+        reported.setText(marked);
     }
 
     /**
@@ -361,8 +369,7 @@ public class MainActivity extends AppCompatActivity {
         Date reportedMonth = calendarView.getCurrentPageDate().getTime();
         Calendar c = Calendar.getInstance();
         c.setTime(reportedMonth);
-        return new DateFormatSymbols().getMonths()[c.get(Calendar.MONTH)];
-        // TODO change name from english to hebrew
+        return String.format("%s %2s", month_names[c.get(Calendar.MONTH)], c.get(Calendar.YEAR));
     }
 
 }
