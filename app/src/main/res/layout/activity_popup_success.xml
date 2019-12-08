@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pop_up_after_report"
     android:orientation="vertical">
 
     <!--    <Button-->
@@ -13,12 +14,15 @@
     <!--    </Button>    -->
     <TextView
         android:id="@+id/popUpWindow"
-        android:layout_width="250dp"
-        android:layout_height="112dp"
-        android:background="#D81B60"
+        android:layout_width="367dp"
+        android:layout_height="203dp"
+        android:paddingStart="30dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="30dp"
         android:text=""
-        android:textColor="#ECE8E8"
-        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#353739"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,8 +43,8 @@
         android:layout_marginBottom="13dp"
         android:background="@drawable/button_green_gradient"
         android:text="@string/approve"
-        android:textColor="#3E3E3E"
-        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
 
