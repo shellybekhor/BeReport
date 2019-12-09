@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -346,6 +347,7 @@ public class MainActivity extends AppCompatActivity {
         reportButton.setText(getResources().getString(R.string.reported));
         reportButton.setBackground(getResources().getDrawable(R.drawable.pop_up_after_report));
         findViewById(R.id.reportedBackground).setVisibility(View.VISIBLE);
+
     }
 
 

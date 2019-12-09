@@ -14,6 +14,7 @@
     <!--    </Button>    -->
     <TextView
         android:id="@+id/popUpWindow"
+        android:background="@drawable/pop_report_success"
         android:layout_width="367dp"
         android:layout_height="203dp"
         android:paddingStart="30dp"
