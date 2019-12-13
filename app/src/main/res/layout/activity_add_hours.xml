@@ -8,22 +8,6 @@
     android:paddingBottom="20dp"
     tools:context=".AddHours">
 
-
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/approveTyping"-->
-    <!--        android:layout_width="90dp"-->
-    <!--        android:layout_height="90dp"-->
-    <!--        android:contentDescription="@string/approvalbutton"-->
-    <!--        android:onClick="approveHours"-->
-    <!--        android:src="@drawable/ic_approval_button"-->
-    <!--        android:visibility="invisible"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.498"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/customHours"-->
-    <!--        app:layout_constraintVertical_bias="0.034" />-->
-
     <Button
         android:id="@+id/approveTyping"
         android:layout_width="90dp"

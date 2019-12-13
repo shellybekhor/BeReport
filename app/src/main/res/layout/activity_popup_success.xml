@@ -6,12 +6,6 @@
     android:background="@drawable/pop_up_after_report"
     android:orientation="vertical">
 
-    <!--    <Button-->
-    <!--        android:id="@+id/buttonclose"-->
-    <!--        android:layout_width="30dp"-->
-    <!--        android:layout_height="30dp"-->
-    <!--        android:background="@drawable/pop_approval_button">-->
-    <!--    </Button>    -->
     <TextView
         android:id="@+id/popUpWindow"
         android:background="@drawable/pop_report_success"

@@ -1,4 +1,16 @@
+
+// =======================================================================
+// BeReport App - project 1: Almog, Shelly, Carolina, Libi
+// =======================================================================
+// =======================================================================
+// This activity is responsible for the poping up window in which the user
+// selects the amount of hours volunteered.
+// =======================================================================
+
+
 package shellybekhor.bereport;
+
+// IMPORTS //
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActionBar;
@@ -22,11 +34,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.applandeo.materialcalendarview.*;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +44,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * This class is the main activity of the app, showed as the
+ * first and main screen of the app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     // Global variables //
@@ -43,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popup;
     private EventDay currentDialogsDay = null;
 
-    // to be saved to future entries to the app
+    // Count the user hours' status //
     private int totalHours = 0;
     private int totalReported = 0;
     private int monthHours = 0;
@@ -51,10 +66,15 @@ public class MainActivity extends AppCompatActivity {
     private Map monthToHours;
     private ArrayList<Date> reportedMonths;
 
+    // Handles the months status //
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String[] month_names = {"ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
             "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמר", "דצמבר"};
 
+    /**
+     * This method is creating the calender object that is main in
+     * the app, the report button, and the hours settings and counters.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method handles the functionality of the calender
+     * in clicking on it.
+     */
     private void setCalendar() {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -150,13 +174,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Handle months scroll
         calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
             @Override
             public void onChange() {
                 updateMonthCounter();
             }
         });
-
         calendarView.setOnForwardPageChangeListener(new OnCalendarPageChangeListener() {
             @Override
             public void onChange() {
@@ -178,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
             @Override
             public void onDismiss(DialogInterface dialog) {
                 updateTextViews();
@@ -195,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *  Unselect a day in calender.
+     * Unselect a day in calender.
      */
     private void removeDayFromSelected(EventDay eventDay){
         List<Calendar> curSelected = calendarView.getSelectedDates();
@@ -204,24 +229,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Return 1 button onClick
-     * @param view buuton
+     * Handles the 1 button onClick
+     * @param view The 1 click button
      */
     public void returnOne(View view){
         updateHours(1);
     }
 
     /**
-     * Return 3 button onClick
-     * @param view buuton
+     * Handles the 3 button onClick
+     * @param view The 3 click button
      */
     public void returnThree(View view){
         updateHours(3);
     }
 
     /**
-     * When the "custom" button is clicked.
-     * @param view the custom button.
+     * Handles the "custom" button when clicked.
+     * @param view the custom button
      */
     public void customButtonClicked(View view){
         View hoursBar = dialog.findViewById(R.id.customHours);
@@ -239,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Return the device sazes and layouts.
+     * Returns the device sizes and layouts.
      * @param context context
-     * @return metrics
+     * @return device metrics
      */
     public static DisplayMetrics getDeviceMetrics(Context context) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -252,8 +277,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called when a day is unselected. remove number of hours that day from the counters.
-     * @param date
+     * Called when a day is unselected. Removes number of hours that day from the counters.
+     * @param date The clicked date
      */
     public void resetDay(Date date){
         int value = (int) dateToHours.get(date);
@@ -262,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Update the counters, and the maps, with the new number of hours
+     * Updates the counters, and the maps, with the new number of hours
      * that was selected in the selected day.
      * @param hours the hours that was selected.
      */
@@ -296,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Change the views in the main activity, and update by the counters.
+     * Changes the views in the main activity, and update by the counters.
      */
     private void updateTextViews(){
         String youReported = getResources().getString(R.string.you_reported, totalReported);
@@ -313,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Change the month counter text view to be the number of hours in the current month.
+     * Changes the month counter text view to be the number of hours in the current month.
      */
     private void updateMonthCounter(){
         Date month = calendarView.getCurrentPageDate().getTime();
@@ -337,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Change a month to reported:
+     * Changes a month to reported:
      *      1. report button color change to gray.
      *      2. report button text is changed.
      *      3. gray shade on month become visible.
@@ -352,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Change a month to an unreported:
+     * Changes a month to unreported:
      *      1. report button color change to gray.
      *      2. report button text is changed.
      *      3. gray shade on month become visible.
