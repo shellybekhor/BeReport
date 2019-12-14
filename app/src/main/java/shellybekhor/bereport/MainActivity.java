@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     // Handles the months status //
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String[] month_names = {"ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמר", "דצמבר"};
+            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"};
 
     /**
      * This method is creating the calender object that is main in
@@ -151,9 +151,10 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
-
+                Date currentMonth = calendarView.getCurrentPageDate().getTime();
                 // If the month was reported, make day disabled.
-                if (reportedMonths.contains(calendarView.getCurrentPageDate().getTime())) {
+                if (reportedMonths.contains(currentMonth) ||
+                        (!getCurMonthName().equals(getMonthName(eventDay.getCalendar().getTime())))) {
                     List<Calendar> c = new ArrayList<>();
                     c.add(eventDay.getCalendar());
                     calendarView.setDisabledDays(c);
@@ -390,12 +391,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @return name of the current month in the calender
+     * @return name of the current month in the calender.
      */
     private String getCurMonthName(){
         Date reportedMonth = calendarView.getCurrentPageDate().getTime();
+        return getMonthName(reportedMonth);
+    }
+
+    /**
+     * @return name of the month in the given date.
+     */
+    private String getMonthName(Date date){
         Calendar c = Calendar.getInstance();
-        c.setTime(reportedMonth);
+        c.setTime(date);
         return String.format("%s %2s", month_names[c.get(Calendar.MONTH)], c.get(Calendar.YEAR));
     }
 
